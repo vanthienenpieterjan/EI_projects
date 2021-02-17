@@ -257,7 +257,7 @@
 /gate/output/imageCT/verbose 0
 
 /gate/output/root/enable
-/gate/output/root/setFileName ../output/flatfield
+/gate/output/root/setFileName ../../rootoutput/flatfield
 
 #=====================================================
 # START ACQUISITION

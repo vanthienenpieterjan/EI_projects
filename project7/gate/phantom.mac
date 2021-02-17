@@ -242,7 +242,7 @@
 /gate/output/imageCT/verbose 0
 
 /gate/output/root/enable
-/gate/output/root/setFileName ../output/phantom
+/gate/output/root/setFileName ../../rootoutput/phantom
 
 #=====================================================
 # START ACQUISITION
