@@ -1,0 +1,5 @@
+Gate flatfield.mac
+Gate phantom.mac
+matlab -nodisplay -nosplash -nodesktop -r "run('../matlab/project1.m');exit;" | tail -n +11
+
+
