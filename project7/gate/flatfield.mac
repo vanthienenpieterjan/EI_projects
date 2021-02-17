@@ -1,0 +1,277 @@
+/control/execute verbose.mac
+
+#=====================================================
+# GEOMETRY
+#=====================================================
+
+/gate/geometry/setMaterialDatabase /data/home/pvanthienen/simulation/gate_v8.0/GateMaterials.db
+
+# World
+/gate/world/geometry/setXLength 500 mm				
+/gate/world/geometry/setYLength 500 mm				
+/gate/world/geometry/setZLength 2500 mm				
+/gate/world/setMaterial Air
+/gate/world/vis/forceWireframe
+/gate/world/vis/setColor white
+
+
+# CTscanner system 
+/gate/world/daughters/name CTscanner
+/gate/world/daughters/insert box
+/gate/CTscanner/geometry/setXLength  30 mm
+/gate/CTscanner/geometry/setYLength  30 mm
+/gate/CTscanner/geometry/setZLength  3. mm
+/gate/CTscanner/placement/setTranslation 0. 0. 1000 mm
+/gate/CTscanner/setMaterial Air
+/gate/CTscanner/vis/forceWireframe
+/gate/CTscanner/vis/setColor red
+
+# Module 
+/gate/CTscanner/daughters/name module
+/gate/CTscanner/daughters/insert box
+/gate/module/geometry/setXLength  30 mm
+/gate/module/geometry/setYLength  30 mm
+/gate/module/geometry/setZLength   3. mm
+/gate/module/setMaterial Air
+/gate/module/vis/forceWireframe
+/gate/module/vis/setColor red
+
+# Cluster 
+/gate/module/daughters/name cluster
+/gate/module/daughters/insert box
+/gate/cluster/geometry/setXLength  30 mm
+/gate/cluster/geometry/setYLength  30 mm
+/gate/cluster/geometry/setZLength   3. mm
+/gate/cluster/setMaterial Air
+/gate/cluster/vis/forceWireframe
+/gate/cluster/vis/setColor red
+
+# Pixel 
+/gate/cluster/daughters/name pixel
+/gate/cluster/daughters/insert box
+/gate/pixel/geometry/setXLength 0.1 mm						
+/gate/pixel/geometry/setYLength 0.1 mm		
+/gate/pixel/geometry/setZLength 3. mm
+/gate/pixel/setMaterial Silicon
+/gate/pixel/vis/forceWireframe
+/gate/pixel/vis/setColor red
+/gate/pixel/repeaters/insert cubicArray
+/gate/pixel/cubicArray/setRepeatNumberX 300				
+/gate/pixel/cubicArray/setRepeatNumberY 300	
+/gate/pixel/cubicArray/setRepeatNumberZ   1
+/gate/pixel/cubicArray/setRepeatVector 0.1 0.1 0. mm		
+
+/gate/systems/CTscanner/module/attach module
+/gate/systems/CTscanner/cluster_0/attach cluster
+/gate/systems/CTscanner/pixel_0/attach pixel
+
+/gate/pixel/attachCrystalSD
+
+
+#Phantom
+#/gate/world/daughters/name tube
+#/gate/world/daughters/insert cylinder
+#/gate/tube/geometry/setRmin 0 mm
+#/gate/tube/geometry/setRmax 5 mm
+#/gate/tube/geometry/setHeight 50 mm
+#/gate/tube/placement/setTranslation 0 0 610 mm
+#/gate/tube/placement/setRotationAxis 1 0 0
+#/gate/tube/placement/setRotationAngle 90 deg
+#/gate/tube/setMaterial Epoxy
+#/gate/tube/vis/forceWireframe
+#/gate/tube/vis/setColor magenta
+
+#/gate/tube/daughters/name ball1
+#/gate/tube/daughters/insert sphere
+#/gate/ball1/geometry/setRmin 0 mm
+#/gate/ball1/geometry/setRmax 2 mm
+#/gate/ball1/placement/setTranslation 3 0 3 mm
+#/gate/ball1/setMaterial Aluminium
+#/gate/ball1/vis/forceSolid
+#/gate/ball1/vis/setColor blue
+
+#/gate/tube/daughters/name ball2
+#/gate/tube/daughters/insert sphere
+#/gate/ball2/geometry/setRmin 0 mm
+#/gate/ball2/geometry/setRmax 2 mm
+#/gate/ball2/placement/setTranslation -3 0 -3 mm
+#/gate/ball2/setMaterial Carbon
+#/gate/ball2/vis/forceSolid
+#/gate/ball2/vis/setColor yellow
+
+#/gate/tube/attachPhantomSD
+#/gate/ball1/attachPhantomSD
+#/gate/ball2/attachPhantomSD
+
+
+#=====================================================
+# PHYSICS
+#=====================================================
+
+/gate/physics/addProcess PhotoElectric
+/gate/physics/processes/PhotoElectric/setModel StandardModel
+
+/gate/physics/addProcess Compton
+/gate/physics/processes/Compton/setModel StandardModel
+
+/gate/physics/addProcess RayleighScattering
+/gate/physics/processes/RayleighScattering/setModel PenelopeModel
+
+/gate/physics/addProcess ElectronIonisation
+/gate/physics/processes/ElectronIonisation/setModel StandardModel e-
+/gate/physics/processes/ElectronIonisation/setModel StandardModel e+
+
+/gate/physics/addProcess Bremsstrahlung
+/gate/physics/processes/Bremsstrahlung/setModel StandardModel e-
+/gate/physics/processes/Bremsstrahlung/setModel StandardModel e+
+
+/gate/physics/addProcess eMultipleScattering e+
+/gate/physics/addProcess eMultipleScattering e-
+
+/gate/physics/addProcess XrayRefraction #decrement of real part				#list refractive indices,  												#(interpolates between values)
+#world
+/gate/refractiveindex/setRefractionIndex Air 0.020 0.0 
+/gate/refractiveindex/setRefractionIndex Air 0.030 0.0
+
+
+#detector
+
+/gate/refractiveindex/setRefractionIndex	Silicon	   0.024082248	   0.0000008340987280
+/gate/refractiveindex/setRefractionIndex	Silicon	   0.025164127	   0.0000007637073050
+/gate/refractiveindex/setRefractionIndex	Silicon	   0.0260073145	   0.0000007148434520
+
+#phantom
+
+#/gate/refractiveindex/setRefractionIndex    Aluminium    0.024780    	0.000000881314122000000
+#/gate/refractiveindex/setRefractionIndex    Aluminium    0.025180    	0.000000853465963000000
+#/gate/refractiveindex/setRefractionIndex    Aluminium    0.026000    	0.000000800399448000000
+
+#/gate/refractiveindex/setRefractionIndex	Epoxy	0.024003305	0.000000372637487000000
+#/gate/refractiveindex/setRefractionIndex	Epoxy	0.025047283	0.000000342201560000000
+#/gate/refractiveindex/setRefractionIndex	Epoxy	0.026030908	0.000000316813043000000
+
+#/gate/refractiveindex/setRefractionIndex	Carbon	0.024983601	0.000000731123293000000
+#/gate/refractiveindex/setRefractionIndex	Carbon	0.025547361	0.000000699198154000000
+#/gate/refractiveindex/setRefractionIndex	Carbon	0.026007513	0.000000674665102000000
+
+#/gate/refractiveindex/setRefractionIndex Air 0.020 0.0 
+#/gate/refractiveindex/setRefractionIndex Air 0.030 0.0
+#/gate/refractiveindex/setRefractionIndex Silicon 0.020 0.0 
+#/gate/refractiveindex/setRefractionIndex Silicon 0.030 0.0
+#/gate/refractiveindex/setRefractionIndex Aluminium 0.020 0.0 
+#/gate/refractiveindex/setRefractionIndex Aluminium 0.030 0.0
+#/gate/refractiveindex/setRefractionIndex Epoxy 0.020 0.0 
+#/gate/refractiveindex/setRefractionIndex Epoxy 0.030 0.0
+#/gate/refractiveindex/setRefractionIndex Carbon 0.020 0.0 
+#/gate/refractiveindex/setRefractionIndex Carbon 0.030 0.0
+
+
+#/gate/refractiveindex/setRandAngleMean Epoxy 0.0
+#/gate/refractiveindex/setRandAngleSigma Epoxy 0.0
+#/gate/refractiveindex/setRandAngleMean Carbon 0.0
+#/gate/refractiveindex/setRandAngleSigma Carbon 0.0
+#/gate/refractiveindex/setRandAngleMean Aluminium 0.0
+#/gate/refractiveindex/setRandAngleSigma Aluminium 0.0
+/gate/refractiveindex/setRandAngleMean Air 0.0
+/gate/refractiveindex/setRandAngleSigma Air 0.0
+/gate/refractiveindex/setRandAngleMean Silicon 0.0
+/gate/refractiveindex/setRandAngleSigma Silicon 0.0
+
+
+/gate/physics/processList Enabled
+/gate/physics/processList Initialized
+
+#=====================================================
+# SIMULATION STATISTICS
+#=====================================================
+
+/gate/actor/addActor   SimulationStatisticActor stat
+/gate/actor/stat/save  ../stats/files_stat.txt
+
+/gate/processGate/enable								#
+/gate/processGate/detectPerfectCrystalEnergy						#needed for phase contrast
+/gate/processGate/detectFluorescence							#
+
+#/gate/processGate/setGridX 3500					# aantal hokjes			#code to add grid
+#/gate/processGate/setGridY 3500						
+#/gate/processGate/setPhysicalGridX 35				#grootte in mm
+#/gate/processGate/setPhysicalGridY 35
+#/gate/processGate/setOutputNameReal ../stats/ProjReal
+#/gate/processGate/setOutputNameImag ../stats/ProjImag
+#/gate/processGate/setOutputNameCounts ../stats/GridCounts_phan
+#/gate/processGate/enableGrid	
+
+#=====================================================
+# INITIALISATION
+#=====================================================
+
+/gate/run/initialize
+
+#=====================================================
+# DIGITIZER 
+#=====================================================
+
+/gate/digitizer/Singles/insert adder
+/gate/digitizer/Singles/insert readout
+/gate/digitizer/Singles/readout/setDepth 2
+/gate/digitizer/Singles/insert thresholder
+/gate/digitizer/Singles/thresholder/setThreshold 10 keV
+
+#=====================================================
+# SOURCE 
+#=====================================================
+
+# Xray source (defined using a histogram to define the energy distribution)
+
+/gate/source/addSource xraygun
+/gate/source/verbose 0
+/gate/source/xraygun/gps/verbose 0
+/gate/source/xraygun/gps/particle gamma
+/gate/source/xraygun/gps/type Plane
+/gate/source/xraygun/gps/shape Rectangle
+/gate/source/xraygun/gps/halfx 0.025 mm
+/gate/source/xraygun/gps/halfy 0.025 mm
+/gate/source/xraygun/gps/centre 0. 0. -1000 mm
+/gate/source/xraygun/gps/mintheta  0. deg		
+/gate/source/xraygun/gps/maxtheta  0.61 deg				#spreiding bundel
+/gate/source/xraygun/gps/angtype iso 					
+/gate/source/xraygun/gps/energytype Mono
+/gate/source/xraygun/gps/monoenergy 30 keV
+
+#/gate/source/xraygun/gps/arbint Lin
+/gate/source/list
+
+#=====================================================
+# VISUALISATION
+#=====================================================
+
+#/control/execute visu.mac			#no visualisation=faster
+			
+#=====================================================
+# OUTPUTS
+#=====================================================
+
+# Specific CT Image output
+/gate/output/imageCT/enable
+/gate/output/imageCT/setFileName ../output/flatfield
+/gate/output/imageCT/verbose 0
+
+/gate/output/root/enable
+/gate/output/root/setFileName ../output/flatfield
+
+#=====================================================
+# START ACQUISITION
+#=====================================================
+
+# JamesRandom Ranlux64 MersenneTwister
+/gate/random/setEngineName MersenneTwister
+/gate/random/setEngineSeed 123456
+
+/gate/application/setTotalNumberOfPrimaries 500000000	
+
+#/gate/application/setNumberOfPrimariesPerRun 1000000		#for core splitting
+#/gate/application/setTimeSlice 1. s				#
+#/gate/application/setTimeStart 0. s				#
+#/gate/application/setTimeStop 5. s				#
+
+/gate/application/start
