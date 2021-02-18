@@ -1,0 +1,7 @@
+cd gate
+Gate flatfield.mac
+Gate phantom.mac
+#cd ..
+#matlab -nodisplay -nosplash -nodesktop -r "run('matlab/EI_recon.m');exit;" | tail -n +11
+
+
