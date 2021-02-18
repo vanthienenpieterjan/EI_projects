@@ -70,23 +70,23 @@
 # Mask 1 (pre-sample)
 /gate/world/daughters/name virtualvolume
 /gate/world/daughters/insert box
-/gate/mask1/geometry/setXLength 60 mm					#mask width (1 bar) 				
-/gate/mask1/geometry/setYLength 60 mm							#mask heigth
-/gate/mask1/geometry/setZLength 0.15 mm							#mask thickness = 150mum = 0.15mm			
-/gate/mask1/placement/setTranslation 0. 0. 600 mm					#translation x for IC -> -20mum	
-/gate/mask1/setMaterial Air						
-/gate/mask1/vis/forceWireframe
-/gate/mask1/vis/setColor white
-#/gate/mask1/repeaters/insert cubicArray
-#/gate/mask1/cubicArray/setRepeatNumberX 301						# enough to cover detector
-#/gate/mask1/cubicArray/setRepeatNumberY 1		
-#/gate/mask1/cubicArray/setRepeatNumberZ 1
-#/gate/mask1/cubicArray/setRepeatVector 0.080063797848386290 0. 0. mm	
+/gate/virtualvolume/geometry/setXLength 60 mm					#mask width (1 bar) 				
+/gate/virtualvolume/geometry/setYLength 60 mm							#mask heigth
+/gate/virtualvolume/geometry/setZLength 0.15 mm							#mask thickness = 150mum = 0.15mm			
+/gate/virtualvolume/placement/setTranslation 0. 0. 600 mm					#translation x for IC -> -20mum	
+/gate/virtualvolume/setMaterial Air						
+/gate/virtualvolume/vis/forceWireframe
+/gate/virtualvolume/vis/setColor white
+#/gate/virtualvolume/repeaters/insert cubicArray
+#/gate/virtualvolume/cubicArray/setRepeatNumberX 301						# enough to cover detector
+#/gate/virtualvolume/cubicArray/setRepeatNumberY 1		
+#/gate/virtualvolume/cubicArray/setRepeatNumberZ 1
+#/gate/virtualvolume/cubicArray/setRepeatVector 0.080063797848386290 0. 0. mm	
 
-/gate/mask1/attachPhantomSD								
+/gate/virtualvolume/attachPhantomSD								
 
-#/gate/mask1/moves/insert translation							#movement mask 1
-#/gate/mask1/translation/setSpeed 0.008 0 0 mm/s						
+#/gate/virtualvolume/moves/insert translation							#movement mask 1
+#/gate/virtualvolume/translation/setSpeed 0.008 0 0 mm/s						
 
 #Mask 2 (detector)
 /gate/world/daughters/name mask2
