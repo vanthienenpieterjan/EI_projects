@@ -4,7 +4,7 @@
 # GEOMETRY
 #=====================================================
 
-/gate/geometry/setMaterialDatabase /data/home/pvanthienen/simulation/gate_v8.0/GateMaterials.db
+/gate/geometry/setMaterialDatabase ../../../gate_v8.0/GateMaterials.db
 # World
 /gate/world/geometry/setXLength 500 mm				
 /gate/world/geometry/setYLength 500 mm				
@@ -196,7 +196,7 @@
 # SURFACE ROUGHNESS
 #=====================================================
 
-/gate/processGate/enableSurfaceRoughness
+#/gate/processGate/enableSurfaceRoughness
 
 /gate/refractiveindex/setRandAngleMean Epoxy 0.0
 /gate/refractiveindex/setRandAngleSigma Epoxy 0.0
@@ -301,7 +301,7 @@
 # JamesRandom Ranlux64 MersenneTwister
 /gate/random/setEngineName MersenneTwister
 /gate/random/setEngineSeed 123456
-/gate/application/setTotalNumberOfPrimaries 1000000	
+/gate/application/setTotalNumberOfPrimaries 100000000	
 
 #/gate/application/setNumberOfPrimariesPerRun 1000000		#for core splitting
 #/gate/application/setTimeSlice 1. s				#
