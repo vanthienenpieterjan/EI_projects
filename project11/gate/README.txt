@@ -1,0 +1,1 @@
+This folder contains the Gate scripts. FOR ROOT OUTPUT, make folder and adjust it in the the gate script
