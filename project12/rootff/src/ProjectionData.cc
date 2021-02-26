@@ -301,7 +301,7 @@ delete[] energies;
 
 }
 
-ofstream file0("../output/numberOfEntries.dat",ios::binary);
+ofstream file0("../output/ffnumberOfEntries.dat",ios::binary);
 file0.write((char*)totalnentries,sizeof(totalNumberOfSimulations)*1*totalNumberOfSimulations); 
 file0.close();
 
