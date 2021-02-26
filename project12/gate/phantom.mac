@@ -301,7 +301,7 @@
 # JamesRandom Ranlux64 MersenneTwister
 /gate/random/setEngineName MersenneTwister
 /gate/random/setEngineSeed 123456
-/gate/application/setTotalNumberOfPrimaries 100000	
+/gate/application/setTotalNumberOfPrimaries 1000000000	
 
 #/gate/application/setNumberOfPrimariesPerRun 1000000		#for core splitting
 #/gate/application/setTimeSlice 1. s				#
