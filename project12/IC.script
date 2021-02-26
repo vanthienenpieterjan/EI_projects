@@ -4,7 +4,6 @@ Gate phantom.mac
 cd ../rootff
 make
 ./rootscript
-cd ..
 cd ../rootph
 make
 ./rootscript
