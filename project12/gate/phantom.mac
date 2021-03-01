@@ -66,6 +66,7 @@
 /gate/pixel/attachCrystalSD
 
 # Mask 1 (pre-sample)
+/gate/processGate/enableVirtualVolume
 /gate/world/daughters/name virtualvolume
 /gate/world/daughters/insert box
 /gate/virtualvolume/geometry/setXLength 60 mm					#mask width (1 bar) 				
@@ -221,7 +222,7 @@
 #=====================================================
 
 /gate/actor/addActor   SimulationStatisticActor stat
-/gate/actor/stat/save  ../stats/stat-ct.txt
+/gate/actor/stat/save  ../stats/stat-ph.txt
 
 /gate/processGate/enable								#
 /gate/processGate/detectPerfectCrystalEnergy						#needed for phase contrast
@@ -287,9 +288,9 @@
 #=====================================================
 
 # Specific CT Image output
-/gate/output/imageCT/enable
-/gate/output/imageCT/setFileName ../output/phantom
-/gate/output/imageCT/verbose 0
+#/gate/output/imageCT/enable
+#/gate/output/imageCT/setFileName ../output/phantom
+#/gate/output/imageCT/verbose 0
 
 /gate/output/root/enable
 /gate/output/root/setFileName ../output/phantom
@@ -301,7 +302,7 @@
 # JamesRandom Ranlux64 MersenneTwister
 /gate/random/setEngineName MersenneTwister
 /gate/random/setEngineSeed 123456
-/gate/application/setTotalNumberOfPrimaries 1000000000	
+/gate/application/setTotalNumberOfPrimaries 100000000	
 
 #/gate/application/setNumberOfPrimariesPerRun 1000000		#for core splitting
 #/gate/application/setTimeSlice 1. s				#
