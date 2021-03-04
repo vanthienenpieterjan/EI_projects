@@ -82,7 +82,7 @@ fclose(fileID);
 
 % globalPosY1ff
 fileID = fopen(['../output/ffglobalPosY1.dat']);
-globalPosY1 = fread(fileID,'float');
+globalPosY1ff = fread(fileID,'float');
 fclose(fileID);
 
 % globalPosZ1ff
@@ -112,7 +112,7 @@ fclose(fileID);
 
 % virtualVolumeInPosX1ff
 fileID = fopen(['../output/ffvirtualVolumeInPosX1.dat']);
-virtualVolumeInPosX1 = fread(fileID,'float');
+virtualVolumeInPosX1ff = fread(fileID,'float');
 fclose(fileID);
 
 % virtualVolumeInPosY1ff
