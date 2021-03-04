@@ -1,0 +1,13 @@
+cd gate
+Gate flatfield.mac
+Gate phantom.mac
+cd ../rootff
+make
+./rootscript
+cd ../rootph
+make
+./rootscript
+cd ..
+matlab -nodisplay -nosplash -nodesktop -r "run('matlab/rootoutput.m');exit;" | tail -n +11
+
+
