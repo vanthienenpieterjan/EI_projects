@@ -122,22 +122,22 @@
 /gate/plasticLayer/vis/forceWireframe
 /gate/plasticLayer/vis/setColor gray
 
-# carbon layer #
-/gate/world/daughters/name carbonLayer
+# Epoxy layer #
+/gate/world/daughters/name EpoxyLayer
 /gate/world/daughters/insert box
-/gate/carbonLayer/placement/setTranslation  0.0 0.0 -0.525 mm
-/gate/carbonLayer/geometry/setXLength  150.0 mm
-/gate/carbonLayer/geometry/setYLength  0.150 mm
-/gate/carbonLayer/geometry/setZLength  0.750 mm
-/gate/carbonLayer/setMaterial Carbon
-/gate/carbonLayer/vis/forceWireframe
-/gate/carbonLayer/vis/setColor gray
+/gate/EpoxyLayer/placement/setTranslation  0.0 0.0 -0.525 mm
+/gate/EpoxyLayer/geometry/setXLength  150.0 mm
+/gate/EpoxyLayer/geometry/setYLength  0.150 mm
+/gate/EpoxyLayer/geometry/setZLength  0.750 mm
+/gate/EpoxyLayer/setMaterial Epoxy
+/gate/EpoxyLayer/vis/forceWireframe
+/gate/EpoxyLayer/vis/setColor gray
 
 /gate/virtualvolume/attachPhantomSD
 
 #/gate/BerylliumCylinder1/attachPhantomSD
 /gate/plasticLayer/attachPhantomSD
-/gate/carbonLayer/attachPhantomSD
+/gate/EpoxyLayer/attachPhantomSD
 
 #/gate/virtualvolume/moves/insert translation
 #/gate/virtualvolume/translation/setSpeed 0.005 0 0 mm/s
@@ -241,67 +241,67 @@
 /gate/refractiveindex/setRefractionIndex	Plastic	0.106635300	0.0000000412093788940
 /gate/refractiveindex/setRefractionIndex	Plastic	0.113993100	0.0000000360611425343
 
-/gate/refractiveindex/setRefractionIndex	Carbon	0.002080733	0.0001109725811903840
-/gate/refractiveindex/setRefractionIndex	Carbon	0.002224304	0.0000969046630565531
-/gate/refractiveindex/setRefractionIndex	Carbon	0.002377781	0.0000846327671777135
-/gate/refractiveindex/setRefractionIndex	Carbon	0.002541848	0.0000739259257622680
-/gate/refractiveindex/setRefractionIndex	Carbon	0.002717235	0.0000645830467901642
-/gate/refractiveindex/setRefractionIndex	Carbon	0.002904724	0.0000564290068902051
-/gate/refractiveindex/setRefractionIndex	Carbon	0.003105150	0.0000493104224452521
-/gate/refractiveindex/setRefractionIndex	Carbon	0.003319406	0.0000430930876415232
-/gate/refractiveindex/setRefractionIndex	Carbon	0.003548445	0.0000376630924993272
-/gate/refractiveindex/setRefractionIndex	Carbon	0.003793288	0.0000329204578589924
-/gate/refractiveindex/setRefractionIndex	Carbon	0.004055024	0.0000287777156256598
-/gate/refractiveindex/setRefractionIndex	Carbon	0.004334821	0.0000251585027068843
-/gate/refractiveindex/setRefractionIndex	Carbon	0.004633924	0.0000219963661409993
-/gate/refractiveindex/setRefractionIndex	Carbon	0.004953664	0.0000192331963175751
-/gate/refractiveindex/setRefractionIndex	Carbon	0.005295467	0.0000168183987807891
-/gate/refractiveindex/setRefractionIndex	Carbon	0.005660855	0.0000147077767541775
-/gate/refractiveindex/setRefractionIndex	Carbon	0.006051453	0.0000128627545131307
-/gate/refractiveindex/setRefractionIndex	Carbon	0.006469004	0.0000112497875216694
-/gate/refractiveindex/setRefractionIndex	Carbon	0.006915365	0.0000098395740302809
-/gate/refractiveindex/setRefractionIndex	Carbon	0.007392525	0.0000086065639215027
-/gate/refractiveindex/setRefractionIndex	Carbon	0.007902609	0.0000075283877778263
-/gate/refractiveindex/setRefractionIndex	Carbon	0.008447890	0.0000065855385255303
-/gate/refractiveindex/setRefractionIndex	Carbon	0.009030794	0.0000057610019727516
-/gate/refractiveindex/setRefractionIndex	Carbon	0.009653919	0.0000050398672475769
-/gate/refractiveindex/setRefractionIndex	Carbon	0.010320040	0.0000044091174208537
-/gate/refractiveindex/setRefractionIndex	Carbon	0.011032120	0.0000038574056359230
-/gate/refractiveindex/setRefractionIndex	Carbon	0.011793340	0.0000033748040466472
-/gate/refractiveindex/setRefractionIndex	Carbon	0.012607080	0.0000029526516988915
-/gate/refractiveindex/setRefractionIndex	Carbon	0.013476970	0.0000025833526183292
-/gate/refractiveindex/setRefractionIndex	Carbon	0.014406880	0.0000022602852671197
-/gate/refractiveindex/setRefractionIndex	Carbon	0.015400950	0.0000019776537259233
-/gate/refractiveindex/setRefractionIndex	Carbon	0.016463620	0.0000017303841471166
-/gate/refractiveindex/setRefractionIndex	Carbon	0.017599610	0.0000015140520610139
-/gate/refractiveindex/setRefractionIndex	Carbon	0.018813980	0.0000013247838540755
-/gate/refractiveindex/setRefractionIndex	Carbon	0.020112150	0.0000011591842809533
-/gate/refractiveindex/setRefractionIndex	Carbon	0.021499880	0.0000010142980067223
-/gate/refractiveindex/setRefractionIndex	Carbon	0.022983380	0.0000008875256287269
-/gate/refractiveindex/setRefractionIndex	Carbon	0.024569230	0.0000007766038753232
-/gate/refractiveindex/setRefractionIndex	Carbon	0.026264500	0.0000006795508100053
-/gate/refractiveindex/setRefractionIndex	Carbon	0.028076760	0.0000005946288340400
-/gate/refractiveindex/setRefractionIndex	Carbon	0.030014050	0.0000005203234143964
-/gate/refractiveindex/setRefractionIndex	Carbon	0.032085020	0.0000004553045810273
-/gate/refractiveindex/setRefractionIndex	Carbon	0.034298890	0.0000003984123247392
-/gate/refractiveindex/setRefractionIndex	Carbon	0.036665510	0.0000003486297185823
-/gate/refractiveindex/setRefractionIndex	Carbon	0.039195430	0.0000003050690437395
-/gate/refractiveindex/setRefractionIndex	Carbon	0.041899920	0.0000002669520184723
-/gate/refractiveindex/setRefractionIndex	Carbon	0.044791010	0.0000002335980420559
-/gate/refractiveindex/setRefractionIndex	Carbon	0.047881590	0.0000002044117324251
-/gate/refractiveindex/setRefractionIndex	Carbon	0.051185420	0.0000001788726281495
-/gate/refractiveindex/setRefractionIndex	Carbon	0.054717210	0.0000001565246528058
-/gate/refractiveindex/setRefractionIndex	Carbon	0.058492700	0.0000001369687554674
-/gate/refractiveindex/setRefractionIndex	Carbon	0.062528700	0.0000001198565310530
-/gate/refractiveindex/setRefractionIndex	Carbon	0.066843180	0.0000001048822398557
-/gate/refractiveindex/setRefractionIndex	Carbon	0.071455360	0.0000000917789143429
-/gate/refractiveindex/setRefractionIndex	Carbon	0.076385780	0.0000000803127705208
-/gate/refractiveindex/setRefractionIndex	Carbon	0.081656400	0.0000000702791157993
-/gate/refractiveindex/setRefractionIndex	Carbon	0.087290690	0.0000000614989921167
-/gate/refractiveindex/setRefractionIndex	Carbon	0.093313740	0.0000000538158850128
-/gate/refractiveindex/setRefractionIndex	Carbon	0.099752390	0.0000000470927022238
-/gate/refractiveindex/setRefractionIndex	Carbon	0.106635300	0.0000000412093788940
-/gate/refractiveindex/setRefractionIndex	Carbon	0.113993100	0.0000000360611425343
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.002080733	0.0001109725811903840
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.002224304	0.0000969046630565531
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.002377781	0.0000846327671777135
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.002541848	0.0000739259257622680
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.002717235	0.0000645830467901642
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.002904724	0.0000564290068902051
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.003105150	0.0000493104224452521
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.003319406	0.0000430930876415232
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.003548445	0.0000376630924993272
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.003793288	0.0000329204578589924
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.004055024	0.0000287777156256598
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.004334821	0.0000251585027068843
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.004633924	0.0000219963661409993
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.004953664	0.0000192331963175751
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.005295467	0.0000168183987807891
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.005660855	0.0000147077767541775
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.006051453	0.0000128627545131307
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.006469004	0.0000112497875216694
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.006915365	0.0000098395740302809
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.007392525	0.0000086065639215027
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.007902609	0.0000075283877778263
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.008447890	0.0000065855385255303
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.009030794	0.0000057610019727516
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.009653919	0.0000050398672475769
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.010320040	0.0000044091174208537
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.011032120	0.0000038574056359230
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.011793340	0.0000033748040466472
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.012607080	0.0000029526516988915
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.013476970	0.0000025833526183292
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.014406880	0.0000022602852671197
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.015400950	0.0000019776537259233
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.016463620	0.0000017303841471166
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.017599610	0.0000015140520610139
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.018813980	0.0000013247838540755
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.020112150	0.0000011591842809533
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.021499880	0.0000010142980067223
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.022983380	0.0000008875256287269
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.024569230	0.0000007766038753232
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.026264500	0.0000006795508100053
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.028076760	0.0000005946288340400
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.030014050	0.0000005203234143964
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.032085020	0.0000004553045810273
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.034298890	0.0000003984123247392
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.036665510	0.0000003486297185823
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.039195430	0.0000003050690437395
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.041899920	0.0000002669520184723
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.044791010	0.0000002335980420559
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.047881590	0.0000002044117324251
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.051185420	0.0000001788726281495
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.054717210	0.0000001565246528058
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.058492700	0.0000001369687554674
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.062528700	0.0000001198565310530
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.066843180	0.0000001048822398557
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.071455360	0.0000000917789143429
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.076385780	0.0000000803127705208
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.081656400	0.0000000702791157993
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.087290690	0.0000000614989921167
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.093313740	0.0000000538158850128
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.099752390	0.0000000470927022238
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.106635300	0.0000000412093788940
+/gate/refractiveindex/setRefractionIndex	Epoxy	0.113993100	0.0000000360611425343
 
 /gate/refractiveindex/setRefractionIndex Silicon 0.001 0.0
 /gate/refractiveindex/setRefractionIndex Silicon 0.010 0.0
@@ -540,8 +540,8 @@
 /gate/refractiveindex/setRandAngleMean Plastic 0.0
 /gate/refractiveindex/setRandAngleSigma Plastic 0.0
 
-/gate/refractiveindex/setRandAngleMean Carbon 0.0
-/gate/refractiveindex/setRandAngleSigma Carbon 0.0
+/gate/refractiveindex/setRandAngleMean Epoxy 0.0
+/gate/refractiveindex/setRandAngleSigma Epoxy 0.0
 
 /gate/refractiveindex/setRandAngleMean Silicon 0.0
 /gate/refractiveindex/setRandAngleSigma Silicon 0.0
