@@ -68,7 +68,7 @@
 /gate/pixel/geometry/setXLength 0.150 mm
 /gate/pixel/geometry/setYLength 0.150 mm
 /gate/pixel/geometry/setZLength 6.0 mm
-/gate/pixel/setMaterial Silicon
+/gate/pixel/setMaterial CsI
 /gate/pixel/vis/forceSolid
 /gate/pixel/vis/setColor red
 /gate/pixel/repeaters/insert cubicArray
@@ -303,15 +303,15 @@
 /gate/refractiveindex/setRefractionIndex	Epoxy	0.106635300	0.0000000412093788940
 /gate/refractiveindex/setRefractionIndex	Epoxy	0.113993100	0.0000000360611425343
 
-/gate/refractiveindex/setRefractionIndex Silicon 0.001 0.0
-/gate/refractiveindex/setRefractionIndex Silicon 0.010 0.0
-/gate/refractiveindex/setRefractionIndex Silicon 0.020 0.0
-/gate/refractiveindex/setRefractionIndex Silicon 0.030 0.0
-/gate/refractiveindex/setRefractionIndex Silicon 0.040 0.0
-/gate/refractiveindex/setRefractionIndex Silicon 0.050 0.0
-/gate/refractiveindex/setRefractionIndex Silicon 0.060 0.0
-/gate/refractiveindex/setRefractionIndex Silicon 0.070 0.0
-/gate/refractiveindex/setRefractionIndex Silicon 0.080 0.0
+/gate/refractiveindex/setRefractionIndex CsI 0.001 0.0
+/gate/refractiveindex/setRefractionIndex CsI 0.010 0.0
+/gate/refractiveindex/setRefractionIndex CsI 0.020 0.0
+/gate/refractiveindex/setRefractionIndex CsI 0.030 0.0
+/gate/refractiveindex/setRefractionIndex CsI 0.040 0.0
+/gate/refractiveindex/setRefractionIndex CsI 0.050 0.0
+/gate/refractiveindex/setRefractionIndex CsI 0.060 0.0
+/gate/refractiveindex/setRefractionIndex CsI 0.070 0.0
+/gate/refractiveindex/setRefractionIndex CsI 0.080 0.0
 
 
 /gate/refractiveindex/setRefractionIndex	MagicAir	0.002003564	0.0004829567832078700
@@ -543,8 +543,8 @@
 /gate/refractiveindex/setRandAngleMean Epoxy 0.0
 /gate/refractiveindex/setRandAngleSigma Epoxy 0.0
 
-/gate/refractiveindex/setRandAngleMean Silicon 0.0
-/gate/refractiveindex/setRandAngleSigma Silicon 0.0
+/gate/refractiveindex/setRandAngleMean CsI 0.0
+/gate/refractiveindex/setRandAngleSigma CsI 0.0
 
 /gate/refractiveindex/setRandAngleMean MagicAir 0.0
 /gate/refractiveindex/setRandAngleSigma MagicAir 0.015
