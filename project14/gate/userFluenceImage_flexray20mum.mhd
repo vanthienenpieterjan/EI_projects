@@ -1,0 +1,13 @@
+ObjectType = Image
+NDims = 3
+BinaryData = True
+BinaryDataByteOrderMSB = False
+CompressedData = False
+TransformMatrix = 1 0 0 0 1 0 0 0 1
+Offset = -0.050 -0.000 0
+CenterOfRotation = 0 0 0
+AnatomicalOrientation = RAI
+ElementSpacing = 0.001 0.001 1
+DimSize = 101 1 1
+ElementType = MET_FLOAT
+ElementDataFile = userFluenceImage_flexray20mum.raw

@@ -1,0 +1,716 @@
+/control/execute verbose.mac #make sure folder is correct
+
+/gate/verbose Physic    0
+/gate/verbose Cuts      0
+/gate/verbose SD        0
+/gate/verbose Actions   0
+/gate/verbose Actor     0
+/gate/verbose Step      0
+/gate/verbose Error     0
+/gate/verbose Warning   0
+/gate/verbose Output    0
+/gate/verbose Beam      0
+/gate/verbose Volume    0
+/gate/verbose Image     0
+/gate/verbose Geometry  0
+/tracking/verbose	0
+
+#=====================================================
+# GEOMETRY
+#=====================================================
+
+/control/useDoublePrecision # avoid rounding
+
+/gate/geometry/setMaterialDatabase ../../../gate_v8.0/GateMaterials.db
+
+# World
+/gate/world/geometry/setXLength 1. m
+/gate/world/geometry/setYLength 1. m
+/gate/world/geometry/setZLength 6. m
+/gate/world/setMaterial Air
+/gate/world/vis/forceWireframe
+/gate/world/vis/setColor black
+
+# CTscanner system
+/gate/world/daughters/name CTscanner
+/gate/world/daughters/insert box
+/gate/CTscanner/geometry/setXLength  15.15 mm
+/gate/CTscanner/geometry/setYLength  0.150 mm
+/gate/CTscanner/geometry/setZLength  6.0 mm
+/gate/CTscanner/placement/setTranslation 0. 0. -4.150 mm
+/gate/CTscanner/setMaterial Air
+/gate/CTscanner/vis/forceWireframe
+/gate/CTscanner/vis/setColor white
+
+# Module
+/gate/CTscanner/daughters/name module
+/gate/CTscanner/daughters/insert box
+/gate/module/geometry/setXLength  15.15 mm
+/gate/module/geometry/setYLength  0.150 mm
+/gate/module/geometry/setZLength  6.0 mm
+/gate/module/setMaterial Air
+/gate/module/vis/forceWireframe
+/gate/module/vis/setColor white
+
+# Cluster
+/gate/module/daughters/name cluster
+/gate/module/daughters/insert box
+/gate/cluster/geometry/setXLength  15.15 mm
+/gate/cluster/geometry/setYLength  0.150 mm
+/gate/cluster/geometry/setZLength  6.0 mm
+/gate/cluster/setMaterial Air
+/gate/cluster/vis/forceWireframe
+/gate/cluster/vis/setColor white
+
+# Pixel
+/gate/cluster/daughters/name pixel
+/gate/cluster/daughters/insert box
+/gate/pixel/geometry/setXLength 0.150 mm
+/gate/pixel/geometry/setYLength 0.150 mm
+/gate/pixel/geometry/setZLength 6.0 mm
+/gate/pixel/setMaterial CsI
+/gate/pixel/vis/forceSolid
+/gate/pixel/vis/setColor red
+/gate/pixel/repeaters/insert cubicArray
+/gate/pixel/cubicArray/setRepeatNumberX 101
+/gate/pixel/cubicArray/setRepeatNumberY 1
+/gate/pixel/cubicArray/setRepeatNumberZ   1
+/gate/pixel/cubicArray/setRepeatVector 0.150 0. 0. mm
+
+/gate/systems/CTscanner/module/attach module
+/gate/systems/CTscanner/cluster_0/attach cluster
+/gate/systems/CTscanner/pixel_0/attach pixel
+
+/gate/pixel/attachCrystalSD
+
+# Phantom
+
+# virtual sample mask #
+/gate/world/daughters/name virtualvolume
+/gate/world/daughters/insert box
+/gate/virtualvolume/geometry/setXLength 20.0 mm
+/gate/virtualvolume/geometry/setYLength 2.0 mm
+/gate/virtualvolume/geometry/setZLength 0.700 mm
+/gate/virtualvolume/setMaterial Air
+/gate/virtualvolume/vis/forceWireframe
+/gate/virtualvolume/vis/setColor white
+/gate/virtualvolume/placement/setTranslation  0.0 0.0 600. mm
+
+
+
+# cylinder 1 #
+#/gate/world/daughters/name BerylliumCylinder1
+#/gate/world/daughters/insert cylinder
+#/gate/BerylliumCylinder1/placement/setTranslation  0.0 0.0 595.0 mm
+#/gate/BerylliumCylinder1/geometry/setRmin 0.0 mm
+#/gate/BerylliumCylinder1/geometry/setRmax 3.0 mm
+#/gate/BerylliumCylinder1/geometry/setHeight 0.200 mm
+#/gate/BerylliumCylinder1/placement/setRotationAxis 1 0 0
+#/gate/BerylliumCylinder1/placement/setRotationAngle 90. deg
+#/gate/BerylliumCylinder1/setMaterial MagicAir
+#/gate/BerylliumCylinder1/vis/forceWireframe
+#/gate/BerylliumCylinder1/vis/setColor blue
+
+# plastic layer #
+/gate/world/daughters/name plasticLayer
+/gate/world/daughters/insert box
+/gate/plasticLayer/placement/setTranslation  0.0 0.0 -1.025 mm
+/gate/plasticLayer/geometry/setXLength  150.0 mm
+/gate/plasticLayer/geometry/setYLength  0.150 mm
+/gate/plasticLayer/geometry/setZLength  0.250 mm
+/gate/plasticLayer/setMaterial Plastic
+/gate/plasticLayer/vis/forceWireframe
+/gate/plasticLayer/vis/setColor gray
+
+# carbon layer #
+/gate/world/daughters/name carbonLayer
+/gate/world/daughters/insert box
+/gate/carbonLayer/placement/setTranslation  0.0 0.0 -0.525 mm
+/gate/carbonLayer/geometry/setXLength  150.0 mm
+/gate/carbonLayer/geometry/setYLength  0.150 mm
+/gate/carbonLayer/geometry/setZLength  0.750 mm
+/gate/carbonLayer/setMaterial Carbon
+/gate/carbonLayer/vis/forceWireframe
+/gate/carbonLayer/vis/setColor gray
+
+/gate/virtualvolume/attachPhantomSD
+
+#/gate/BerylliumCylinder1/attachPhantomSD
+/gate/plasticLayer/attachPhantomSD
+/gate/carbonLayer/attachPhantomSD
+
+#/gate/virtualvolume/moves/insert translation
+#/gate/virtualvolume/translation/setSpeed 0.005 0 0 mm/s
+
+#=====================================================
+# PHYSICS
+#=====================================================
+
+/gate/physics/addProcess PhotoElectric
+/gate/physics/processes/PhotoElectric/setModel StandardModel
+
+/gate/physics/addProcess Compton
+/gate/physics/processes/Compton/setModel StandardModel
+
+/gate/physics/addProcess RayleighScattering
+/gate/physics/processes/RayleighScattering/setModel PenelopeModel
+
+/gate/physics/addProcess ElectronIonisation
+/gate/physics/processes/ElectronIonisation/setModel StandardModel e-
+/gate/physics/processes/ElectronIonisation/setModel StandardModel e+
+
+/gate/physics/addProcess Bremsstrahlung
+/gate/physics/processes/Bremsstrahlung/setModel StandardModel e-
+/gate/physics/processes/Bremsstrahlung/setModel StandardModel e+
+
+/gate/physics/addProcess eMultipleScattering e+
+/gate/physics/addProcess eMultipleScattering e-
+
+/gate/physics/addProcess XrayRefraction #decrement of real part
+/gate/refractiveindex/setRefractionIndex Air 0.001 0.0
+/gate/refractiveindex/setRefractionIndex Air 0.010 0.0
+/gate/refractiveindex/setRefractionIndex Air 0.020 0.0
+/gate/refractiveindex/setRefractionIndex Air 0.030 0.0
+/gate/refractiveindex/setRefractionIndex Air 0.040 0.0
+/gate/refractiveindex/setRefractionIndex Air 0.050 0.0
+/gate/refractiveindex/setRefractionIndex Air 0.060 0.0
+/gate/refractiveindex/setRefractionIndex Air 0.070 0.0
+/gate/refractiveindex/setRefractionIndex Air 0.080 0.0
+
+
+
+/gate/refractiveindex/setRefractionIndex	Plastic	0.002080733	0.0001109725811903840
+/gate/refractiveindex/setRefractionIndex	Plastic	0.002224304	0.0000969046630565531
+/gate/refractiveindex/setRefractionIndex	Plastic	0.002377781	0.0000846327671777135
+/gate/refractiveindex/setRefractionIndex	Plastic	0.002541848	0.0000739259257622680
+/gate/refractiveindex/setRefractionIndex	Plastic	0.002717235	0.0000645830467901642
+/gate/refractiveindex/setRefractionIndex	Plastic	0.002904724	0.0000564290068902051
+/gate/refractiveindex/setRefractionIndex	Plastic	0.003105150	0.0000493104224452521
+/gate/refractiveindex/setRefractionIndex	Plastic	0.003319406	0.0000430930876415232
+/gate/refractiveindex/setRefractionIndex	Plastic	0.003548445	0.0000376630924993272
+/gate/refractiveindex/setRefractionIndex	Plastic	0.003793288	0.0000329204578589924
+/gate/refractiveindex/setRefractionIndex	Plastic	0.004055024	0.0000287777156256598
+/gate/refractiveindex/setRefractionIndex	Plastic	0.004334821	0.0000251585027068843
+/gate/refractiveindex/setRefractionIndex	Plastic	0.004633924	0.0000219963661409993
+/gate/refractiveindex/setRefractionIndex	Plastic	0.004953664	0.0000192331963175751
+/gate/refractiveindex/setRefractionIndex	Plastic	0.005295467	0.0000168183987807891
+/gate/refractiveindex/setRefractionIndex	Plastic	0.005660855	0.0000147077767541775
+/gate/refractiveindex/setRefractionIndex	Plastic	0.006051453	0.0000128627545131307
+/gate/refractiveindex/setRefractionIndex	Plastic	0.006469004	0.0000112497875216694
+/gate/refractiveindex/setRefractionIndex	Plastic	0.006915365	0.0000098395740302809
+/gate/refractiveindex/setRefractionIndex	Plastic	0.007392525	0.0000086065639215027
+/gate/refractiveindex/setRefractionIndex	Plastic	0.007902609	0.0000075283877778263
+/gate/refractiveindex/setRefractionIndex	Plastic	0.008447890	0.0000065855385255303
+/gate/refractiveindex/setRefractionIndex	Plastic	0.009030794	0.0000057610019727516
+/gate/refractiveindex/setRefractionIndex	Plastic	0.009653919	0.0000050398672475769
+/gate/refractiveindex/setRefractionIndex	Plastic	0.010320040	0.0000044091174208537
+/gate/refractiveindex/setRefractionIndex	Plastic	0.011032120	0.0000038574056359230
+/gate/refractiveindex/setRefractionIndex	Plastic	0.011793340	0.0000033748040466472
+/gate/refractiveindex/setRefractionIndex	Plastic	0.012607080	0.0000029526516988915
+/gate/refractiveindex/setRefractionIndex	Plastic	0.013476970	0.0000025833526183292
+/gate/refractiveindex/setRefractionIndex	Plastic	0.014406880	0.0000022602852671197
+/gate/refractiveindex/setRefractionIndex	Plastic	0.015400950	0.0000019776537259233
+/gate/refractiveindex/setRefractionIndex	Plastic	0.016463620	0.0000017303841471166
+/gate/refractiveindex/setRefractionIndex	Plastic	0.017599610	0.0000015140520610139
+/gate/refractiveindex/setRefractionIndex	Plastic	0.018813980	0.0000013247838540755
+/gate/refractiveindex/setRefractionIndex	Plastic	0.020112150	0.0000011591842809533
+/gate/refractiveindex/setRefractionIndex	Plastic	0.021499880	0.0000010142980067223
+/gate/refractiveindex/setRefractionIndex	Plastic	0.022983380	0.0000008875256287269
+/gate/refractiveindex/setRefractionIndex	Plastic	0.024569230	0.0000007766038753232
+/gate/refractiveindex/setRefractionIndex	Plastic	0.026264500	0.0000006795508100053
+/gate/refractiveindex/setRefractionIndex	Plastic	0.028076760	0.0000005946288340400
+/gate/refractiveindex/setRefractionIndex	Plastic	0.030014050	0.0000005203234143964
+/gate/refractiveindex/setRefractionIndex	Plastic	0.032085020	0.0000004553045810273
+/gate/refractiveindex/setRefractionIndex	Plastic	0.034298890	0.0000003984123247392
+/gate/refractiveindex/setRefractionIndex	Plastic	0.036665510	0.0000003486297185823
+/gate/refractiveindex/setRefractionIndex	Plastic	0.039195430	0.0000003050690437395
+/gate/refractiveindex/setRefractionIndex	Plastic	0.041899920	0.0000002669520184723
+/gate/refractiveindex/setRefractionIndex	Plastic	0.044791010	0.0000002335980420559
+/gate/refractiveindex/setRefractionIndex	Plastic	0.047881590	0.0000002044117324251
+/gate/refractiveindex/setRefractionIndex	Plastic	0.051185420	0.0000001788726281495
+/gate/refractiveindex/setRefractionIndex	Plastic	0.054717210	0.0000001565246528058
+/gate/refractiveindex/setRefractionIndex	Plastic	0.058492700	0.0000001369687554674
+/gate/refractiveindex/setRefractionIndex	Plastic	0.062528700	0.0000001198565310530
+/gate/refractiveindex/setRefractionIndex	Plastic	0.066843180	0.0000001048822398557
+/gate/refractiveindex/setRefractionIndex	Plastic	0.071455360	0.0000000917789143429
+/gate/refractiveindex/setRefractionIndex	Plastic	0.076385780	0.0000000803127705208
+/gate/refractiveindex/setRefractionIndex	Plastic	0.081656400	0.0000000702791157993
+/gate/refractiveindex/setRefractionIndex	Plastic	0.087290690	0.0000000614989921167
+/gate/refractiveindex/setRefractionIndex	Plastic	0.093313740	0.0000000538158850128
+/gate/refractiveindex/setRefractionIndex	Plastic	0.099752390	0.0000000470927022238
+/gate/refractiveindex/setRefractionIndex	Plastic	0.106635300	0.0000000412093788940
+/gate/refractiveindex/setRefractionIndex	Plastic	0.113993100	0.0000000360611425343
+
+/gate/refractiveindex/setRefractionIndex	Carbon	0.002080733	0.0001109725811903840
+/gate/refractiveindex/setRefractionIndex	Carbon	0.002224304	0.0000969046630565531
+/gate/refractiveindex/setRefractionIndex	Carbon	0.002377781	0.0000846327671777135
+/gate/refractiveindex/setRefractionIndex	Carbon	0.002541848	0.0000739259257622680
+/gate/refractiveindex/setRefractionIndex	Carbon	0.002717235	0.0000645830467901642
+/gate/refractiveindex/setRefractionIndex	Carbon	0.002904724	0.0000564290068902051
+/gate/refractiveindex/setRefractionIndex	Carbon	0.003105150	0.0000493104224452521
+/gate/refractiveindex/setRefractionIndex	Carbon	0.003319406	0.0000430930876415232
+/gate/refractiveindex/setRefractionIndex	Carbon	0.003548445	0.0000376630924993272
+/gate/refractiveindex/setRefractionIndex	Carbon	0.003793288	0.0000329204578589924
+/gate/refractiveindex/setRefractionIndex	Carbon	0.004055024	0.0000287777156256598
+/gate/refractiveindex/setRefractionIndex	Carbon	0.004334821	0.0000251585027068843
+/gate/refractiveindex/setRefractionIndex	Carbon	0.004633924	0.0000219963661409993
+/gate/refractiveindex/setRefractionIndex	Carbon	0.004953664	0.0000192331963175751
+/gate/refractiveindex/setRefractionIndex	Carbon	0.005295467	0.0000168183987807891
+/gate/refractiveindex/setRefractionIndex	Carbon	0.005660855	0.0000147077767541775
+/gate/refractiveindex/setRefractionIndex	Carbon	0.006051453	0.0000128627545131307
+/gate/refractiveindex/setRefractionIndex	Carbon	0.006469004	0.0000112497875216694
+/gate/refractiveindex/setRefractionIndex	Carbon	0.006915365	0.0000098395740302809
+/gate/refractiveindex/setRefractionIndex	Carbon	0.007392525	0.0000086065639215027
+/gate/refractiveindex/setRefractionIndex	Carbon	0.007902609	0.0000075283877778263
+/gate/refractiveindex/setRefractionIndex	Carbon	0.008447890	0.0000065855385255303
+/gate/refractiveindex/setRefractionIndex	Carbon	0.009030794	0.0000057610019727516
+/gate/refractiveindex/setRefractionIndex	Carbon	0.009653919	0.0000050398672475769
+/gate/refractiveindex/setRefractionIndex	Carbon	0.010320040	0.0000044091174208537
+/gate/refractiveindex/setRefractionIndex	Carbon	0.011032120	0.0000038574056359230
+/gate/refractiveindex/setRefractionIndex	Carbon	0.011793340	0.0000033748040466472
+/gate/refractiveindex/setRefractionIndex	Carbon	0.012607080	0.0000029526516988915
+/gate/refractiveindex/setRefractionIndex	Carbon	0.013476970	0.0000025833526183292
+/gate/refractiveindex/setRefractionIndex	Carbon	0.014406880	0.0000022602852671197
+/gate/refractiveindex/setRefractionIndex	Carbon	0.015400950	0.0000019776537259233
+/gate/refractiveindex/setRefractionIndex	Carbon	0.016463620	0.0000017303841471166
+/gate/refractiveindex/setRefractionIndex	Carbon	0.017599610	0.0000015140520610139
+/gate/refractiveindex/setRefractionIndex	Carbon	0.018813980	0.0000013247838540755
+/gate/refractiveindex/setRefractionIndex	Carbon	0.020112150	0.0000011591842809533
+/gate/refractiveindex/setRefractionIndex	Carbon	0.021499880	0.0000010142980067223
+/gate/refractiveindex/setRefractionIndex	Carbon	0.022983380	0.0000008875256287269
+/gate/refractiveindex/setRefractionIndex	Carbon	0.024569230	0.0000007766038753232
+/gate/refractiveindex/setRefractionIndex	Carbon	0.026264500	0.0000006795508100053
+/gate/refractiveindex/setRefractionIndex	Carbon	0.028076760	0.0000005946288340400
+/gate/refractiveindex/setRefractionIndex	Carbon	0.030014050	0.0000005203234143964
+/gate/refractiveindex/setRefractionIndex	Carbon	0.032085020	0.0000004553045810273
+/gate/refractiveindex/setRefractionIndex	Carbon	0.034298890	0.0000003984123247392
+/gate/refractiveindex/setRefractionIndex	Carbon	0.036665510	0.0000003486297185823
+/gate/refractiveindex/setRefractionIndex	Carbon	0.039195430	0.0000003050690437395
+/gate/refractiveindex/setRefractionIndex	Carbon	0.041899920	0.0000002669520184723
+/gate/refractiveindex/setRefractionIndex	Carbon	0.044791010	0.0000002335980420559
+/gate/refractiveindex/setRefractionIndex	Carbon	0.047881590	0.0000002044117324251
+/gate/refractiveindex/setRefractionIndex	Carbon	0.051185420	0.0000001788726281495
+/gate/refractiveindex/setRefractionIndex	Carbon	0.054717210	0.0000001565246528058
+/gate/refractiveindex/setRefractionIndex	Carbon	0.058492700	0.0000001369687554674
+/gate/refractiveindex/setRefractionIndex	Carbon	0.062528700	0.0000001198565310530
+/gate/refractiveindex/setRefractionIndex	Carbon	0.066843180	0.0000001048822398557
+/gate/refractiveindex/setRefractionIndex	Carbon	0.071455360	0.0000000917789143429
+/gate/refractiveindex/setRefractionIndex	Carbon	0.076385780	0.0000000803127705208
+/gate/refractiveindex/setRefractionIndex	Carbon	0.081656400	0.0000000702791157993
+/gate/refractiveindex/setRefractionIndex	Carbon	0.087290690	0.0000000614989921167
+/gate/refractiveindex/setRefractionIndex	Carbon	0.093313740	0.0000000538158850128
+/gate/refractiveindex/setRefractionIndex	Carbon	0.099752390	0.0000000470927022238
+/gate/refractiveindex/setRefractionIndex	Carbon	0.106635300	0.0000000412093788940
+/gate/refractiveindex/setRefractionIndex	Carbon	0.113993100	0.0000000360611425343
+
+/gate/refractiveindex/setRefractionIndex CsI 0.001 0.0
+/gate/refractiveindex/setRefractionIndex CsI 0.010 0.0
+/gate/refractiveindex/setRefractionIndex CsI 0.020 0.0
+/gate/refractiveindex/setRefractionIndex CsI 0.030 0.0
+/gate/refractiveindex/setRefractionIndex CsI 0.040 0.0
+/gate/refractiveindex/setRefractionIndex CsI 0.050 0.0
+/gate/refractiveindex/setRefractionIndex CsI 0.060 0.0
+/gate/refractiveindex/setRefractionIndex CsI 0.070 0.0
+/gate/refractiveindex/setRefractionIndex CsI 0.080 0.0
+
+
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002003564	0.0004829567832078700
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002013581	0.0004952141647640730
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002023649	0.0005067847266623770
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002033768	0.0005177195722964470
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002043936	0.0005280630146917580
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002054156	0.0005378526197640440
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002064427	0.0005471207728943230
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002074749	0.0005558958212799180
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002085123	0.0005642021389340640
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002095548	0.0005720605632033730
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002106026	0.0005794882906019320
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002116556	0.0005865000596131970
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002127139	0.0005931094974437530
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002137775	0.0005993239089898190
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002148464	0.0006051506756089770
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002159206	0.0006105914813875640
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002170002	0.0006156434607911820
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002180852	0.0006202975897725190
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002191756	0.0006245392794113050
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002202715	0.0006283373846526870
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002213729	0.0006316445955695030
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002224797	0.0006343778594798030
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002235921	0.0006363913219287700
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002247101	0.0006374012061207220
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002258336	0.0006367516500944740
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002269628	0.0006323166659692400
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002278651	0.0006172881658044730
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002280976	0.0005657137673127910
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002283349	0.0006318597559203480
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002292381	0.0006572138269369940
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002303843	0.0006698374556016000
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002315362	0.0006783839942127950
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002326939	0.0006851148022741890
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002338574	0.0006907485958382100
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002350266	0.0006956120572471290
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002362018	0.0006998711460906750
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002373828	0.0007036198012280660
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002385697	0.0007069218190437200
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002397625	0.0007098100501645920
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002409614	0.0007124060701455830
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002421662	0.0007147513957846700
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002433770	0.0007168533862126990
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002445939	0.0007187135261370090
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002458169	0.0007203370350516250
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002470459	0.0007217282830664790
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002482812	0.0007228872928867070
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002495226	0.0007238093676373890
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002507702	0.0007244783983758810
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002520240	0.0007248624629016860
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002532842	0.0007248944157803190
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002545506	0.0007244265301753430
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002558233	0.0007230280612046930
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002571024	0.0007180328192964150
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002571656	0.0007236327809055570
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002578144	0.0007270824335546600
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002583880	0.0007350062650115500
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002596799	0.0007389118146284810
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002609783	0.0007409416374464210
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002622832	0.0007422285114091750
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002635946	0.0007430694174113640
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002649126	0.0007435907064059490
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002662371	0.0007438562199686070
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002675683	0.0007439020416911910
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002689062	0.0007437476229256410
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002702507	0.0007434001025021610
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002716020	0.0007428905099475690
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002729600	0.0007422481656809830
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002743248	0.0007414625666163710
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002756964	0.0007405191138397580
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002770749	0.0007393907582657990
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002784602	0.0007380145166801690
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002798525	0.0007362215991736020
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002812518	0.0007332080623494670
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002814046	0.0007375352770925730
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002825155	0.0007379086919103360
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002826581	0.0007431661400088520
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002840714	0.0007442694215324450
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002854917	0.0007441086295500390
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002869192	0.0007435245854186930
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002883538	0.0007427022187794540
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002897955	0.0007417149458782060
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002912445	0.0007405995933648100
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002927007	0.0007393799199710320
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002941642	0.0007380706556726480
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002956351	0.0007366826632882640
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002971132	0.0007352292901684940
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.002985988	0.0007337316597882950
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003000918	0.0007322271794803340
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003015923	0.0007305226097542950
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003031002	0.0007287508135184940
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003046157	0.0007269168564751750
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003061388	0.0007250237831073590
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003076695	0.0007230754752492420
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003092078	0.0007210748780306880
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003107539	0.0007190242178210470
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003123076	0.0007169262487057780
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003138692	0.0007147836014784680
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003154385	0.0007125975182196830
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003170157	0.0007103701323396900
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003186008	0.0007081034319027300
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003201938	0.0007057990156554460
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003217948	0.0007034587784989730
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003234037	0.0007010838182134010
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003250208	0.0006986755400271600
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003266459	0.0006962357679125540
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003282791	0.0006937659142822930
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003299205	0.0006912669154784920
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003315701	0.0006887400469586350
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003332279	0.0006861873805098790
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003348941	0.0006836093716008900
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003365686	0.0006810064364333040
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003382514	0.0006783794949094550
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003399427	0.0006757293305086240
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003416424	0.0006730577948481860
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003433506	0.0006703653613471440
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003450673	0.0006676531181742870
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003467927	0.0006649224896441350
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003485266	0.0006621742183366320
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003502693	0.0006594089203349160
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003520206	0.0006566280551565660
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003537807	0.0006538321585282520
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003555496	0.0006510219421239100
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003573274	0.0006481982999771860
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003591140	0.0006453625500825170
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003609096	0.0006425148609643260
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003627141	0.0006403306340600580
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003645277	0.0006374550709134510
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003663503	0.0006345670058280390
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003681821	0.0006316670531164490
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003700230	0.0006287570552413760
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003718731	0.0006258369033993050
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003737325	0.0006229081318344920
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003756011	0.0006204061558660670
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003774791	0.0006174569587289710
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003793665	0.0006144994002410020
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003812634	0.0006115343485473870
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003831697	0.0006085622564090740
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003850855	0.0006055842200646220
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003870110	0.0006026010117779290
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003889460	0.0005996127143830770
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003908908	0.0005966206800397730
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003928452	0.0005936250266478510
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003948094	0.0005906264054993550
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003967835	0.0005876252628062550
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.003987674	0.0005846221922379860
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.004055024	0.0005692709249158460
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.004334821	0.0005010263066114490
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.004633924	0.0004409567348127650
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.004953664	0.0003877085552076880
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.005295467	0.0003408238672857010
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.005660855	0.0002994637095242420
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.006051453	0.0002630219155830540
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.006469004	0.0002309523089664050
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.006915365	0.0002027416255332710
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.007392525	0.0001779268234157340
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.007902609	0.0001560921303144410
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.008447890	0.0001368541885085280
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.009030794	0.0001198526260029950
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.009653919	0.0001046132582610000
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.010002660	0.0000969858144842905
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.010155770	0.0000932938460356953
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.010196590	0.0000915510606730202
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.010257830	0.0000922858171170328
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.010320040	0.0000922928125383989
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.010410940	0.0000915956855000911
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.011032120	0.0000827243189691786
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.011313120	0.0000789140905991950
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.011486280	0.0000764914595120756
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.011532460	0.0000756828423170177
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.011601720	0.0000756541837206286
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.011774880	0.0000742354198859589
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.011793340	0.0000743409192300283
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.011857800	0.0000739101508838346
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.012039300	0.0000719948904929141
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.012087700	0.0000715101505506875
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.012160300	0.0000712626983321657
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.012341800	0.0000698115847859732
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.012607080	0.0000674346752987773
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.013476970	0.0000596615043638416
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.014406880	0.0000526289210490695
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.015400950	0.0000463598997700329
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.016463620	0.0000408007516438151
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.017599610	0.0000358857664764358
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.018813980	0.0000315492976529470
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.020112150	0.0000277284817142031
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.021499880	0.0000243707632038408
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.022983380	0.0000214107930005712
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.024569230	0.0000188126740487266
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.026264500	0.0000165244455506955
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.028076760	0.0000145136379635708
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.030014050	0.0000127455068014661
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.032085020	0.0000111919993268868
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.034298890	0.0000098273796606652
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.036665510	0.0000086288408484771
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.039195430	0.0000075762422657076
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.041899920	0.0000066518505524323
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.044791010	0.0000058400579169566
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.047881590	0.0000051270880474692
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.051185420	0.0000045008593640156
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.054717210	0.0000039506926255692
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.058492700	0.0000034670942514677
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.062528700	0.0000030414533411497
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.066843180	0.0000026644161602047
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.068134500	0.0000025690679918057
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.069177380	0.0000024912741196240
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.069455480	0.0000024684899639614
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.069872630	0.0000024599207690631
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.070915500	0.0000024071931935946
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.071455360	0.0000023819821447648
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.076385780	0.0000021004330098375
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.081656400	0.0000018477232404504
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.087290690	0.0000016242297707471
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.093313740	0.0000014272592458433
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.099752390	0.0000012538708779877
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.106635300	0.0000011013712528817
+/gate/refractiveindex/setRefractionIndex	MagicAir	0.113993100	0.0000009673116863590
+
+
+# Surface roughness
+/gate/processGate/enableSurfaceRoughness
+/gate/refractiveindex/setRandAngleMean Air 0.0
+/gate/refractiveindex/setRandAngleSigma Air 0.0
+
+/gate/refractiveindex/setRandAngleMean Plastic 0.0
+/gate/refractiveindex/setRandAngleSigma Plastic 0.0
+
+/gate/refractiveindex/setRandAngleMean Carbon 0.0
+/gate/refractiveindex/setRandAngleSigma Carbon 0.0
+
+/gate/refractiveindex/setRandAngleMean CsI 0.0
+/gate/refractiveindex/setRandAngleSigma CsI 0.0
+
+/gate/refractiveindex/setRandAngleMean MagicAir 0.0
+/gate/refractiveindex/setRandAngleSigma MagicAir 0.015
+
+/gate/physics/processList Enabled
+/gate/physics/processList Initialized
+
+#=====================================================
+# SIMULATION STATISTICS
+#=====================================================
+
+/gate/processGate/enable
+/gate/processGate/detectPerfectCrystalEnergy
+/gate/processGate/detectFluorescence
+
+# Virtual Volume
+/gate/processGate/enableVirtualVolume
+
+#=====================================================
+# INITIALISATION
+#=====================================================
+
+/gate/run/initialize
+
+#=====================================================
+# DIGITIZER
+#=====================================================
+
+/gate/digitizer/Singles/insert adder
+/gate/digitizer/Singles/insert readout
+/gate/digitizer/Singles/readout/setDepth 2
+/gate/digitizer/Singles/insert thresholder
+/gate/digitizer/Singles/thresholder/setThreshold  2 keV  #10 keV
+
+#=====================================================
+# SOURCE
+#=====================================================
+
+# Xray source (defined using a histogram to define the energy distribution)
+
+/gate/source/addSource xraygun
+/gate/source/verbose 0
+/gate/source/xraygun/gps/verbose 0
+/gate/source/xraygun/gps/particle gamma
+/gate/source/xraygun/gps/centre 0. 0. 1.8 m
+/gate/source/xraygun/gps/mintheta 90.0 deg
+/gate/source/xraygun/gps/maxtheta 90.0 deg
+/gate/source/xraygun/gps/minphi -0.2492 deg #
+/gate/source/xraygun/gps/maxphi 0.2492 deg
+/gate/source/xraygun/gps/angtype cos
+
+
+/gate/source/xraygun/gps/pos/type UserFluenceImage
+/gate/source/xraygun/gps/pos/setImage userFluenceImage_flexray20mum.mhd
+
+#/gate/source/xraygun/gps/type Plane
+#/gate/source/xraygun/gps/shape Rectangle
+#/gate/source/xraygun/gps/halfx 0.017 mm # FWHM of 20 micron, 2 variances to each side
+#/gate/source/xraygun/gps/halfy 0.005 mm
+
+
+/gate/source/xraygun/gps/ang/rot1 0.0 0.0 1.0
+/gate/source/xraygun/gps/ang/rot2 1.0 0.0 0.0
+
+/gate/source/xraygun/gps/energytype Arb
+/gate/source/xraygun/gps/histname arb
+/gate/source/xraygun/gps/emin 1.0 keV
+/gate/source/xraygun/gps/emax 60.00 keV
+/gate/source/xraygun/gps/histpoint 	0.0010	0.00
+/gate/source/xraygun/gps/histpoint 	0.0020	0.00
+/gate/source/xraygun/gps/histpoint 	0.0030	1.04
+/gate/source/xraygun/gps/histpoint 	0.0040	37.62
+/gate/source/xraygun/gps/histpoint 	0.0050	170.57
+/gate/source/xraygun/gps/histpoint 	0.0060	345.73
+/gate/source/xraygun/gps/histpoint 	0.0070	498.60
+/gate/source/xraygun/gps/histpoint 	0.0080	598.71
+/gate/source/xraygun/gps/histpoint 	0.0090	1000.00
+/gate/source/xraygun/gps/histpoint 	0.0100	674.77
+/gate/source/xraygun/gps/histpoint 	0.0110	487.17
+/gate/source/xraygun/gps/histpoint 	0.0120	420.67
+/gate/source/xraygun/gps/histpoint 	0.0130	361.93
+/gate/source/xraygun/gps/histpoint 	0.0140	367.49
+/gate/source/xraygun/gps/histpoint 	0.0150	371.76
+/gate/source/xraygun/gps/histpoint 	0.0160	367.65
+/gate/source/xraygun/gps/histpoint 	0.0170	360.06
+/gate/source/xraygun/gps/histpoint 	0.0180	350.21
+/gate/source/xraygun/gps/histpoint 	0.0190	341.93
+/gate/source/xraygun/gps/histpoint 	0.0200	330.25
+/gate/source/xraygun/gps/histpoint 	0.0210	316.25
+/gate/source/xraygun/gps/histpoint 	0.0220	302.30
+/gate/source/xraygun/gps/histpoint 	0.0230	288.77
+/gate/source/xraygun/gps/histpoint 	0.0240	277.99
+/gate/source/xraygun/gps/histpoint 	0.0250	261.66
+/gate/source/xraygun/gps/histpoint 	0.0260	249.84
+/gate/source/xraygun/gps/histpoint 	0.0270	238.76
+/gate/source/xraygun/gps/histpoint 	0.0280	227.63
+/gate/source/xraygun/gps/histpoint 	0.0290	210.63
+/gate/source/xraygun/gps/histpoint 	0.0300	203.96
+/gate/source/xraygun/gps/histpoint 	0.0310	193.22
+/gate/source/xraygun/gps/histpoint 	0.0320	181.80
+/gate/source/xraygun/gps/histpoint 	0.0330	175.27
+/gate/source/xraygun/gps/histpoint 	0.0340	164.49
+/gate/source/xraygun/gps/histpoint 	0.0350	156.22
+/gate/source/xraygun/gps/histpoint 	0.0360	145.41
+/gate/source/xraygun/gps/histpoint 	0.0370	139.52
+/gate/source/xraygun/gps/histpoint 	0.0380	130.27
+/gate/source/xraygun/gps/histpoint 	0.0390	122.99
+/gate/source/xraygun/gps/histpoint 	0.0400	116.61
+/gate/source/xraygun/gps/histpoint 	0.0410	111.70
+/gate/source/xraygun/gps/histpoint 	0.0420	101.05
+/gate/source/xraygun/gps/histpoint 	0.0430	97.26
+/gate/source/xraygun/gps/histpoint 	0.0440	90.05
+/gate/source/xraygun/gps/histpoint 	0.0450	81.53
+/gate/source/xraygun/gps/histpoint 	0.0460	77.73
+/gate/source/xraygun/gps/histpoint 	0.0470	72.43
+/gate/source/xraygun/gps/histpoint 	0.0480	67.09
+/gate/source/xraygun/gps/histpoint 	0.0490	61.00
+/gate/source/xraygun/gps/histpoint 	0.0500	56.21
+/gate/source/xraygun/gps/histpoint 	0.0510	53.18
+/gate/source/xraygun/gps/histpoint 	0.0520	48.32
+/gate/source/xraygun/gps/histpoint 	0.0530	43.74
+/gate/source/xraygun/gps/histpoint 	0.0540	38.54
+/gate/source/xraygun/gps/histpoint 	0.0550	32.31
+/gate/source/xraygun/gps/histpoint 	0.0560	28.57
+/gate/source/xraygun/gps/histpoint 	0.0570	23.35
+/gate/source/xraygun/gps/histpoint 	0.0580	17.69
+/gate/source/xraygun/gps/histpoint 	0.0590	11.17
+/gate/source/xraygun/gps/histpoint 	0.0600	4.24
+
+
+/gate/source/xraygun/gps/arbint Lin
+/gate/source/list
+
+#=====================================================
+# VISUALISATION
+#=====================================================
+/vis/disable
+#/control/execute visu.mac
+
+#=====================================================
+# OUTPUTS
+#=====================================================
+
+#/gate/output/allowNoOutput
+
+# ROOT output
+/gate/output/root/enable
+/gate/output/root/setFileName ../output/flatfield
+/gate/output/root/setRootHitFlag 0
+/gate/output/root/setRootSinglesFlag 1
+/gate/output/root/setRootNtupleFlag 0
+/gate/output/verbose 1
+
+
+#=====================================================
+# START ACQUISITION
+#=====================================================
+
+# JamesRandom Ranlux64 MersenneTwister
+/gate/random/setEngineName MersenneTwister
+/gate/random/setEngineSeed auto
+
+/gate/application/setNumberOfPrimariesPerRun 10000
+
+/gate/application/setTimeSlice     1. s
+/gate/application/setTimeStart     0. s
+/gate/application/setTimeStop      1. s
+
+/gate/application/start
