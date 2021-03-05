@@ -707,7 +707,7 @@
 /gate/random/setEngineName MersenneTwister
 /gate/random/setEngineSeed auto
 
-/gate/application/setNumberOfPrimariesPerRun 10000
+/gate/application/setNumberOfPrimariesPerRun 100000000
 
 /gate/application/setTimeSlice     1. s
 /gate/application/setTimeStart     0. s
