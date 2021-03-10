@@ -29,7 +29,7 @@ for i=1:1:fotons
             && (energy1ff(i)>=0)
         for j=1:1:5
             if (mod(virtualVolumeInPosX1ff(i)+phase(j)+0.0020,p1)<=s1)...
-                    && (mod(virtualVolumeInPosX1ff(i)+t*(virtualVolumeOutPosX1ff(i)-virtualVolumeInPosX1ff(i))/(virtualVolumeOutPosZ1ff(i)-virtualVolumeInPosZ1ff(i))+phase(j)+0.0020,p1)<=s1)
+                    && (mod(virtualVolumeOutPosX1ff(i)+phase(j)+0.0020,p1)<=s1)
                 x_loc=round((round(perfectCrystalPosX1ff(i),2)+0.75)/1.5*100)+1;
                 reslocff(j,x_loc)=reslocff(j,x_loc)+1;
                 reseneff(j,x_loc)=reseneff(j,x_loc)+energy1ff(i);
@@ -55,7 +55,7 @@ for i=1:1:fotons
             && (energy1(i)>=0)
         for j=1:1:5
             if (mod(virtualVolumeInPosX1(i)+phase(j)+0.0020,p1)<=s1)...
-                    && (mod(virtualVolumeInPosX1(i)+t*(virtualVolumeOutPosX1(i)-virtualVolumeInPosX1(i))/(virtualVolumeOutPosZ1(i)-virtualVolumeInPosZ1(i))+phase(j)+0.0020,p1)<=s1)
+                    && (mod(virtualVolumeInPosX1(i)t*(virtualVolumeOutPosX1(i)-virtualVolumeInPosX1(i))/(virtualVolumeOutPosZ1(i)-virtualVolumeInPosZ1(i))+phase(j)+0.0020,p1)<=s1)
                 x_loc=round((round(perfectCrystalPosX1(i),2)+0.75)/1.5*100)+1;
                 resloc(j,x_loc)=resloc(j,x_loc)+1;
                 resene(j,x_loc)=resene(j,x_loc)+energy1(i);
@@ -125,4 +125,33 @@ plot(b2(20:80));
 
 
 %% GARBAGE
-% (mod(virtualVolumeInPosX1(i)+t*(virtualVolumeOutPosX1(i)-virtualVolumeInPosX1(i))/(virtualVolumeOutPosZ1(i)-virtualVolumeInPosZ1(i))+phase(j)+0.0020,p1)<=s1)
+
+% 
+% %% FLATFIELD
+% 
+% close all
+% slit=0.0040;
+% period=0.0100;
+% det_z = 4.4751;
+% %load('workspace.mat')
+% j=1;
+% results=zeros(23102698,4);
+% tic
+% for i=1:1:25957186
+%     if (mod(virtualVolumeInPosX1ff(i)+0.0008,period) <=slit)...
+%         && (mod(virtualVolumeOutPosX1ff(i)+0.0008,period) <=slit)...
+%         && (perfectCrystalPosX1ff(i) <= 0.3)...
+%         && (perfectCrystalPosX1ff(i) >= -0.3)...
+%         && (perfectCrystalPosY1ff(i) <= 0.3)...
+%         && (perfectCrystalPosY1ff(i) >= -0.3)
+%         results(j,1)= perfectCrystalPosX1ff(i);
+%         results(j,2)= perfectCrystalPosY1ff(i);
+%         results(j,3)= globalPosX1ff(i);
+%         results(j,4)= globalPosY1ff(i);
+%         j = j+1;
+%     end
+% end
+% results =results(1:j,:);
+% toc
+% figure; hist3(results(:,1:2),'CDataMode','auto')
+% figure; hist3(results(:,3:4),'CDataMode','auto')
